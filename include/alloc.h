@@ -1,5 +1,5 @@
-#ifndef cake_alloc_h
-#define cake_alloc_h
+#ifndef _ALLOC_H 
+#define _ALLOC_H 
 #include <stddef.h>
 
 #include <mem-private/jemalloc.h>

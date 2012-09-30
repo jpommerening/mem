@@ -35,17 +35,18 @@ else
 include config-unix.mk
 endif
 
+LIBS = mem.a
 TESTS = test/test-*.c
 BENCHMARKS = test/benchmark-*.c
 
-all: mem.a
+all: $(LIBS)
 
 test/gen-tests.c: test/gen-tests.sh $(TESTS)
 	test/gen-tests.sh $(TESTS) > test/gen-tests.c
 
 test/run-tests$(E): test/*.h test/run-tests.c test/gen-tests.c test/test.c $(TESTS) glob.a
 	$(CC) $(CPPFLAGS) -o test/run-tests test/run-tests.c test/gen-tests.c test/test.c \
-	  $(TESTS) glob.a
+	  $(TESTS) $(LIB)
 
 .PHONY: clean clean-platform distclean distclean-platform test bench
 
@@ -56,7 +57,7 @@ bench: test/run-benchmarks$(E)
 	test/run-benchmarks
 
 clean: clean-platform
-	$(RM) -f src/*.o *.a test/run-tests$(E) test/run-benchmarks$(E)
+	$(RM) -f $(OBJS) $(LIBS) test/run-tests$(E) test/run-benchmarks$(E)
 
 distclean: distclean-platform
-	$(RM) -f src/*.o *.a test/run-tests$(E) test/run-benchmarks$(E)
+	$(RM) -f $(OBJS) $(LIBS) test/run-tests$(E) test/run-benchmarks$(E)

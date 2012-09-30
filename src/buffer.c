@@ -1,12 +1,13 @@
-#include "mem.h"
+#include "buffer.h"
 #include "alloc.h"
+
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
 
 #define BUFFER_GUESS_FMTSIZE(fmt) (strlen(fmt)*1.2)
 
-byte buffer_initial[1] = { '\0' };
+char buffer_initial[1] = { '\0' };
 
 void buffer_init( buffer_t buf, size_t len ) {
   buf->alloc  = 0;
@@ -19,9 +20,9 @@ void buffer_destroy( buffer_t buf ) {
     free( buf->data );
 }
 
-byte * buffer_detach( buffer_t buf, size_t * len ) {
+char * buffer_detach( buffer_t buf, size_t * len ) {
   size_t size = buf->length;
-  byte * data = realloc( buf->data, size );
+  char * data = realloc( buf->data, size );
   buf->alloc  = 0;
   buf->length = 0;
   buf->data   = buffer_initial;
@@ -31,7 +32,7 @@ byte * buffer_detach( buffer_t buf, size_t * len ) {
   return data;
 }
 
-void buffer_attach( buffer_t buf, byte * data, size_t alloc, size_t len ) {
+void buffer_attach( buffer_t buf, char * data, size_t alloc, size_t len ) {
   buffer_destroy( buf );
   buf->alloc  = alloc;
   buf->length = len;
@@ -52,7 +53,7 @@ void buffer_grow( buffer_t buf, size_t len ) {
   }
 }
 
-void buffer_splice( buffer_t buf, size_t pos, size_t rem, const byte * data, size_t len ) {
+void buffer_splice( buffer_t buf, size_t pos, size_t rem, const char * data, size_t len ) {
   assert( pos <= buf->length && "buffer_splice() beyond buffer." );
   ssize_t diff = len - rem;
   
@@ -72,10 +73,10 @@ void buffer_splice( buffer_t buf, size_t pos, size_t rem, const byte * data, siz
 void buffer_remove( buffer_t buf, size_t pos, size_t len ) {
   buffer_splice( buf, pos, len, NULL, 0 );
 }
-void buffer_insert( buffer_t buf, size_t pos, const byte * data, size_t len ) {
+void buffer_insert( buffer_t buf, size_t pos, const char * data, size_t len ) {
   buffer_splice( buf, pos, 0, data, len );
 }
-void buffer_append( buffer_t buf, const byte * data, size_t len ) {
+void buffer_append( buffer_t buf, const char * data, size_t len ) {
   buffer_splice( buf, buf->length, 0, data, len );
 }
 
@@ -93,10 +94,10 @@ void buffer_str( buffer_t buf, const char * str ) {
   buffer_setlen( buf, len );
 }
 void buffer_insertstr( buffer_t buf, size_t pos, const char * str ) {
-  buffer_insert( buf, pos, (const byte*)str, strlen(str) );
+  buffer_insert( buf, pos, (const char*)str, strlen(str) );
 }
 void buffer_appendstr( buffer_t buf, const char * str ) {
-  buffer_append( buf, (const byte*)str, strlen(str) );
+  buffer_append( buf, (const char*)str, strlen(str) );
 }
 
 void buffer_vfmt( buffer_t buf, const char * fmt, va_list vargs ) {
@@ -146,28 +147,28 @@ void buffer_appendfmt( buffer_t buf, const char * fmt, ... ) {
   va_end(vargs);
 }
 
-static inline bool byte_in_set( byte b, const byte * set, size_t len ) {
+static inline int char_in_set( char b, const char * set, size_t len ) {
   while( len > 0 )
-    if( b == set[--len] ) return true;
-  return false;
+    if( b == set[--len] ) return 1;
+  return 0;
 }
 
 size_t buffer_read( buffer_t buf,
-                    const byte * data,  size_t len,
-                    const byte * delim, size_t ndelim ) {
+                    const char * data,  size_t len,
+                    const char * delim, size_t ndelim ) {
   size_t i;
-  for( i=0; (i<len) && !byte_in_set( data[i], delim, ndelim ); i++ );
+  for( i=0; (i<len) && !char_in_set( data[i], delim, ndelim ); i++ );
   buffer_append( buf, data, i );
   return i;
 }
 
-size_t buffer_read_escaped( buffer_t buf, byte c,
-                            const byte * data,  size_t len,
-                            const byte * delim, size_t ndelim,
-                            const byte * esc,   size_t nesc ) {
+size_t buffer_read_escaped( buffer_t buf, char c,
+                            const char * data,  size_t len,
+                            const char * delim, size_t ndelim,
+                            const char * esc,   size_t nesc ) {
   size_t i, j;
-  for( i=j=0; (i<len) && !byte_in_set( data[i], delim, ndelim ); i++ ) {
-    if( data[i] == c && byte_in_set(data[i+1], esc, nesc ) ) {
+  for( i=j=0; (i<len) && !char_in_set( data[i], delim, ndelim ); i++ ) {
+    if( data[i] == c && char_in_set(data[i+1], esc, nesc ) ) {
       buffer_append( buf, data+j, i-j );
       j = ++i;
     }
@@ -176,20 +177,20 @@ size_t buffer_read_escaped( buffer_t buf, byte c,
   return i;
 }
 
-size_t buffer_ltrim( buffer_t buf, const byte * trim, size_t ntrim ) {
+size_t buffer_ltrim( buffer_t buf, const char * trim, size_t ntrim ) {
   size_t i;
-  for( i=0; i < buf->length && byte_in_set( buf->data[i], trim, ntrim ); i++ );
+  for( i=0; i < buf->length && char_in_set( buf->data[i], trim, ntrim ); i++ );
   buffer_remove( buf, 0, i );
   return i;
 }
 
-size_t buffer_rtrim( buffer_t buf, const byte * trim, size_t ntrim ) {
+size_t buffer_rtrim( buffer_t buf, const char * trim, size_t ntrim ) {
   size_t i;
-  for( i=0; i < buf->length && byte_in_set( buf->data[buf->length-i-1], trim, ntrim ); i++ );
+  for( i=0; i < buf->length && char_in_set( buf->data[buf->length-i-1], trim, ntrim ); i++ );
   buffer_remove( buf, buf->length-i, i );
   return i;
 }
 
-size_t buffer_trim( buffer_t buf, const byte * trim, size_t ntrim ) {
+size_t buffer_trim( buffer_t buf, const char * trim, size_t ntrim ) {
   return buffer_ltrim( buf, trim, ntrim ) + buffer_rtrim( buf, trim, ntrim );
 }

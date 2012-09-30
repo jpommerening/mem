@@ -24,17 +24,21 @@
 E = .exe
 CC = $(PREFIX)gcc
 AR = $(PREFIX)ar
-CSTDFLAG = --std=gnu89
+CSTDFLAG = --std=gnu99
 CFLAGS = -g
 LINKFLAGS =
 
 CPPFLAGS += -D_WIN32_WINNT=0x0600
+CPPFLAGS_JEMALLOC = $(CPPFLAGS)
 
 OBJS += src/buffer.o
-OBJS += src/jemalloc.o
+OBJS += src/jemalloc/jemalloc.o
 
 mem.a: $(OBJS)
 	$(AR) rcs mem.a $(OBJS)
+
+src/jemalloc/%.o: src/jemalloc/%.c include/mem.h src/internal.h
+	$(CC) $(CPPFLAGS_JEMALLOC) -Iinclude/mem-internal -Isrc/jemalloc $(CFLAGS) -c $< -o $@
 
 src/%.o: src/%.c include/mem.h src/internal.h
 	$(CC) $(CSTDFLAG) $(CPPFLAGS) -Isrc $(CFLAGS) -c $< -o $@

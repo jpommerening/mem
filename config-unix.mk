@@ -27,9 +27,10 @@ CFLAGS += -g
 LINKFLAGS = 
 
 CPPFLAGS += -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+CPPFLAGS_JEMALLOC = --std=c99 -Wall -Wno-unused-parameter -Wno-unused $(CPPFLAGS)
 
 OBJS += src/buffer.o
-OBJS += src/jemalloc.o
+OBJS += src/jemalloc/jemalloc.o
 
 ifeq (SunOS,$(uname_S))
 CPPFLAGS +=
@@ -63,6 +64,9 @@ endif
 
 mem.a: $(OBJS)
 	$(AR) rcs mem.a $(OBJS)
+
+src/jemalloc/%.o: src/jemalloc/%.c include/mem.h src/internal.h
+	$(CC) $(CPPFLAGS_JEMALLOC) -Iinclude/mem-internal -Isrc/jemalloc $(CFLAGS) -c $< -o $@
 
 src/%.o: src/%.c include/mem.h src/internal.h
 	$(CC) $(CSTDFLAG) $(CPPFLAGS) -Isrc $(CFLAGS) -c $< -o $@

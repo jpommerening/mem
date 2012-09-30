@@ -1,10 +1,5 @@
-#ifndef MEM_H
-#define MEM_H
-
-typedef char byte;
-typedef int bool;
-#define true 1
-#define false 0
+#ifndef _MEM_H
+#define _MEM_H
 
 #include <alloc.h>
 #include <buffer.h>
