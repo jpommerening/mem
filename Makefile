@@ -27,7 +27,7 @@ ifdef MSVC
 uname_S := MINGW
 endif
 
-CPPFLAGS += -Iinclude -Iinclude/mem-private
+CPPFLAGS += -Iinclude
 
 ifneq (,$(findstring MINGW,$(uname_S)))
 include config-mingw.mk

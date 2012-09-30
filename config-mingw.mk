@@ -37,8 +37,8 @@ OBJS += src/jemalloc/jemalloc.o
 mem.a: $(OBJS)
 	$(AR) rcs mem.a $(OBJS)
 
-src/jemalloc/%.o: src/jemalloc/%.c include/mem.h src/internal.h
-	$(CC) $(CPPFLAGS_JEMALLOC) -Iinclude/mem-internal -Isrc/jemalloc $(CFLAGS) -c $< -o $@
+src/jemalloc/jemalloc.o: src/jemalloc/jemalloc.c src/jemalloc/*.h include/mem-private/*.h
+	$(CC) $(CPPFLAGS_JEMALLOC) -Iinclude/mem-private -Isrc/jemalloc $(CFLAGS) -c $< -o $@
 
 src/%.o: src/%.c include/mem.h src/internal.h
 	$(CC) $(CSTDFLAG) $(CPPFLAGS) -Isrc $(CFLAGS) -c $< -o $@

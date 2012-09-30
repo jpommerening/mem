@@ -1,5 +1,5 @@
-#ifndef _ALLOC_H 
-#define _ALLOC_H 
+#ifndef _ALLOC_H_
+#define _ALLOC_H_
 #include <stddef.h>
 
 #include <mem-private/jemalloc.h>
