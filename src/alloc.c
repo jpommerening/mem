@@ -7,6 +7,16 @@ void * grow( void * mem, size_t len, size_t * alloc ) {
   if( len <= *alloc )
     return mem;
   
-  *alloc = je_malloc_usable_size_in_advance(REALLOC_SIZE(len));
-  return je_realloc( mem, *alloc );
+  len = REALLOC_SIZE(len);
+  if( *alloc == 0 )
+    mem = je_malloc( len );
+  else
+    mem = je_realloc( mem, len );
+
+  if( mem )
+    *alloc = je_malloc_usable_size(mem);
+  else
+    *alloc = 0;
+  
+  return mem;
 }

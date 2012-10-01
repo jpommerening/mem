@@ -13,7 +13,6 @@
 		416FD730161A0FFF00AEA066 /* jemalloc_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 416FD717161A0FFF00AEA066 /* jemalloc_config.h */; };
 		416FD731161A0FFF00AEA066 /* jemalloc_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 416FD718161A0FFF00AEA066 /* jemalloc_types.h */; };
 		416FD732161A0FFF00AEA066 /* mem.h in Headers */ = {isa = PBXBuildFile; fileRef = 416FD719161A0FFF00AEA066 /* mem.h */; };
-		416FD733161A0FFF00AEA066 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 416FD71B161A0FFF00AEA066 /* Makefile */; };
 		416FD734161A0FFF00AEA066 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD71D161A0FFF00AEA066 /* buffer.c */; };
 		416FD736161A0FFF00AEA066 /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 416FD71F161A0FFF00AEA066 /* internal.h */; };
 		416FD737161A0FFF00AEA066 /* jemalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD721161A0FFF00AEA066 /* jemalloc.c */; };
@@ -27,12 +26,14 @@
 		416FD754161A135A00AEA066 /* run-tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD72A161A0FFF00AEA066 /* run-tests.c */; };
 		416FD755161A135A00AEA066 /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD72B161A0FFF00AEA066 /* test.c */; };
 		416FD758161A136E00AEA066 /* gen-tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD756161A136400AEA066 /* gen-tests.c */; };
+		416FD762161A29FD00AEA066 /* test-buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD761161A29FD00AEA066 /* test-buffer.c */; };
+		416FD763161A2BC800AEA066 /* mem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 416FD6F3161A0F5D00AEA066 /* mem.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		416FD6F3161A0F5D00AEA066 /* mem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = mem.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		416FD710161A0FFF00AEA066 /* config-mingw.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "config-mingw.mk"; sourceTree = "<group>"; };
-		416FD711161A0FFF00AEA066 /* config-unix.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "config-unix.mk"; sourceTree = "<group>"; };
+		416FD710161A0FFF00AEA066 /* config-mingw.mk */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = "config-mingw.mk"; sourceTree = "<group>"; };
+		416FD711161A0FFF00AEA066 /* config-unix.mk */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = "config-unix.mk"; sourceTree = "<group>"; };
 		416FD713161A0FFF00AEA066 /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alloc.h; sourceTree = "<group>"; };
 		416FD714161A0FFF00AEA066 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffer.h; sourceTree = "<group>"; };
 		416FD716161A0FFF00AEA066 /* jemalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jemalloc.h; sourceTree = "<group>"; };
@@ -40,7 +41,7 @@
 		416FD718161A0FFF00AEA066 /* jemalloc_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jemalloc_types.h; sourceTree = "<group>"; };
 		416FD719161A0FFF00AEA066 /* mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mem.h; sourceTree = "<group>"; };
 		416FD71A161A0FFF00AEA066 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		416FD71B161A0FFF00AEA066 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		416FD71B161A0FFF00AEA066 /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Makefile; sourceTree = "<group>"; };
 		416FD71D161A0FFF00AEA066 /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = buffer.c; sourceTree = "<group>"; };
 		416FD71F161A0FFF00AEA066 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
 		416FD721161A0FFF00AEA066 /* jemalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jemalloc.c; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		416FD743161A11D700AEA066 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
 		416FD74A161A130E00AEA066 /* mem-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "mem-test"; sourceTree = BUILT_PRODUCTS_DIR; };
 		416FD756161A136400AEA066 /* gen-tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "gen-tests.c"; sourceTree = "<group>"; };
+		416FD761161A29FD00AEA066 /* test-buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-buffer.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				416FD763161A2BC800AEA066 /* mem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +153,7 @@
 				416FD729161A0FFF00AEA066 /* gen-tests.sh */,
 				416FD756161A136400AEA066 /* gen-tests.c */,
 				416FD72A161A0FFF00AEA066 /* run-tests.c */,
+				416FD761161A29FD00AEA066 /* test-buffer.c */,
 				416FD72B161A0FFF00AEA066 /* test.c */,
 				416FD72C161A0FFF00AEA066 /* test.h */,
 			);
@@ -250,6 +254,7 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/test/test-buffer.c",
 			);
 			outputPaths = (
 				"$(SRCROOT)/test/gen-tests.c",
@@ -265,10 +270,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				416FD733161A0FFF00AEA066 /* Makefile in Sources */,
 				416FD734161A0FFF00AEA066 /* buffer.c in Sources */,
 				416FD737161A0FFF00AEA066 /* jemalloc.c in Sources */,
 				416FD744161A11D700AEA066 /* alloc.c in Sources */,
+				416FD762161A29FD00AEA066 /* test-buffer.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,7 +360,8 @@
 		416FD752161A130F00AEA066 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -363,7 +369,8 @@
 		416FD753161A130F00AEA066 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

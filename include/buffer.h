@@ -37,9 +37,9 @@ extern "C" {
 
 extern char buffer_initial[];
 
-typedef struct buffer * buffer_t;
+typedef struct buffer_s buffer_t;
 
-struct buffer {
+struct buffer_s {
   size_t alloc;
   size_t length;
   char * data;
@@ -51,78 +51,78 @@ struct buffer {
 #define BUFFER_WHITESPACE  " \t\n\r"
 #define BUFFER_NWHITESPACE (sizeof(BUFFER_WHITESPACE "")-1)
 
-extern void buffer_init( buffer_t, size_t );
-extern void buffer_destroy( buffer_t );
-extern char * buffer_detach( buffer_t, size_t * );
-extern void buffer_attach( buffer_t, char *, size_t, size_t );
-static inline void buffer_swap( buffer_t a, buffer_t b ) {
-  struct buffer tmp = *a;
+extern void buffer_init( buffer_t* buf, size_t len );
+extern void buffer_destroy( buffer_t* buf );
+extern char * buffer_detach( buffer_t* buf, size_t* len );
+extern void buffer_attach( buffer_t* buf, char*, size_t len, size_t alloc );
+static inline void buffer_swap( buffer_t* a, buffer_t* b ) {
+  buffer_t tmp = *a;
   *a = *b;
   *b = tmp;
 }
 
-static inline size_t buffer_avail( const buffer_t buf ) {
+static inline size_t buffer_avail( const buffer_t* buf ) {
   return buf->alloc ? buf->alloc - buf->length - 1 : 0;
 }
 
-static inline int buffer_empty( const buffer_t buf ) {
+static inline int buffer_empty( const buffer_t* buf ) {
   return (buf->length == 0);
 }
 
-extern void buffer_grow( buffer_t, size_t );
+extern void buffer_grow( buffer_t*, size_t );
 
-static inline void buffer_setlen( buffer_t buf, size_t len ) {
+static inline void buffer_setlen( buffer_t* buf, size_t len ) {
   assert( len <= (buf->alloc ? buf->alloc - 1 : 0) && "buffer_setlen() beyond buffer" );
   buf->length    = len;
   buf->data[len] = '\0';
 }
 #define buffer_reset(sb) buffer_setlen(sb, 0)
 
-void buffer_splice( buffer_t buf, size_t pos, size_t rem, const char * data, size_t len );
-void buffer_remove( buffer_t buf, size_t pos, size_t len );
-void buffer_insert( buffer_t buf, size_t pos, const char * data, size_t len );
-void buffer_append( buffer_t buf, const char * data, size_t len );
+void buffer_splice( buffer_t* buf, size_t pos, size_t rem, const char * data, size_t len );
+void buffer_remove( buffer_t* buf, size_t pos, size_t len );
+void buffer_insert( buffer_t* buf, size_t pos, const char * data, size_t len );
+void buffer_append( buffer_t* buf, const char * data, size_t len );
 
-void buffer_insertbuf( buffer_t buf, size_t pos, const buffer_t b );
-void buffer_appendbuf( buffer_t buf, const buffer_t b );
+void buffer_insertbuf( buffer_t* buf, size_t pos, const buffer_t* b );
+void buffer_appendbuf( buffer_t* buf, const buffer_t* b );
 
-void buffer_str( buffer_t buf, const char * str );
-void buffer_insertstr( buffer_t buf, size_t pos, const char * str );
-void buffer_appendstr( buffer_t buf, const char * str );
+void buffer_str( buffer_t* buf, const char * str );
+void buffer_insertstr( buffer_t* buf, size_t pos, const char * str );
+void buffer_appendstr( buffer_t* buf, const char * str );
 
-void buffer_vfmt( buffer_t buf, const char * fmt, va_list vargs );
-void buffer_appendvfmt( buffer_t buf, const char * fmt, va_list vargs );
-void buffer_insertvfmt( buffer_t buf, size_t pos, const char * fmt, va_list vargs );
+void buffer_vfmt( buffer_t* buf, const char * fmt, va_list vargs );
+void buffer_appendvfmt( buffer_t* buf, const char * fmt, va_list vargs );
+void buffer_insertvfmt( buffer_t* buf, size_t pos, const char * fmt, va_list vargs );
 
-void buffer_fmt( buffer_t buf, const char * fmt, ... );
-void buffer_insertfmt( buffer_t buf, size_t pos, const char * fmt, ... );
-void buffer_appendfmt( buffer_t buf, const char * fmt, ... );
+void buffer_fmt( buffer_t* buf, const char * fmt, ... );
+void buffer_insertfmt( buffer_t* buf, size_t pos, const char * fmt, ... );
+void buffer_appendfmt( buffer_t* buf, const char * fmt, ... );
 
-size_t buffer_read( buffer_t buf,
+size_t buffer_read( buffer_t* buf,
                     const char * data,  size_t len,
                     const char * delim, size_t ndelim );
 
-size_t buffer_read_escaped( buffer_t buf, char c,
+size_t buffer_read_escaped( buffer_t* buf, char c,
                             const char * data,  size_t len,
                             const char * delim, size_t ndelim,
                             const char * esc,   size_t nesc );
 
-size_t buffer_rtrim( buffer_t buf, const char * trim, size_t ntrim );
-size_t buffer_ltrim( buffer_t buf, const char * trim, size_t ntrim );
-size_t buffer_trim( buffer_t buf, const char * trim, size_t ntrim );
+size_t buffer_rtrim( buffer_t* buf, const char * trim, size_t ntrim );
+size_t buffer_ltrim( buffer_t* buf, const char * trim, size_t ntrim );
+size_t buffer_trim( buffer_t* buf, const char * trim, size_t ntrim );
 
-static inline size_t buffer_rtrimw( buffer_t buf ) {
+static inline size_t buffer_rtrimw( buffer_t* buf ) {
   return buffer_rtrim( buf, BUFFER_WHITESPACE, BUFFER_NWHITESPACE );
 }
 
-static inline size_t buffer_ltrimw( buffer_t buf ) {
+static inline size_t buffer_ltrimw( buffer_t* buf ) {
   return buffer_ltrim( buf, BUFFER_WHITESPACE, BUFFER_NWHITESPACE );
 }
 
-static inline size_t buffer_trimw( buffer_t buf ) {
+static inline size_t buffer_trimw( buffer_t* buf ) {
   return buffer_trim( buf, BUFFER_WHITESPACE, BUFFER_NWHITESPACE );
 }
-int buffer_cmp( const buffer_t, const buffer_t );
+int buffer_cmp( const buffer_t*, const buffer_t* );
 
 #ifdef __cplusplus
 }

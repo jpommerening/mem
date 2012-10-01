@@ -30,6 +30,7 @@ CPPFLAGS += -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
 CPPFLAGS_JEMALLOC = --std=c99 -Wall -Wno-unused-function -Wno-unused-parameter -Wno-unused-variable $(CPPFLAGS)
 
 OBJS += src/buffer.o
+OBJS += src/alloc.o
 OBJS += src/jemalloc/jemalloc.o
 
 ifeq (SunOS,$(uname_S))
