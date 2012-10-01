@@ -1,9 +1,12 @@
-//
-//  alloc.c
-//  mem
-//
-//  Created by Jonas Pommerening on 10/1/12.
-//  Copyright (c) 2012 Jonas Pommerening. All rights reserved.
-//
+#include "alloc.h"
+#include "jemalloc.h"
 
-#include <stdio.h>
+#define REALLOC_SIZE(s) (((s)+16)/8*13)
+
+void * grow( void * mem, size_t len, size_t * alloc ) {
+  if( len <= *alloc )
+    return mem;
+  
+  *alloc = je_malloc_usable_size_in_advance(REALLOC_SIZE(len));
+  return je_realloc( mem, *alloc );
+}
