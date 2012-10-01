@@ -61,6 +61,8 @@ static inline void buffer_swap( buffer_t* a, buffer_t* b ) {
   *b = tmp;
 }
 
+extern void buffer_grow( buffer_t*, size_t );
+
 static inline size_t buffer_avail( const buffer_t* buf ) {
   return buf->alloc ? buf->alloc - buf->length - 1 : 0;
 }
@@ -69,8 +71,10 @@ static inline int buffer_empty( const buffer_t* buf ) {
   return (buf->length == 0);
 }
 
-extern void buffer_grow( buffer_t*, size_t );
-
+static inline void buffer_editable( buffer_t* buf ) {
+  if( buf->alloc == 0 ) buffer_grow( buf, buf->length );
+}
+  
 static inline void buffer_setlen( buffer_t* buf, size_t len ) {
   assert( len <= (buf->alloc ? buf->alloc - 1 : 0) && "buffer_setlen() beyond buffer" );
   buf->length    = len;

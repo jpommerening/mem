@@ -11,9 +11,10 @@ char buffer_initial[1] = { '\0' };
 
 void buffer_init( buffer_t* buf, size_t len ) {
   buf->alloc   = 0;
-  buf->length  = len;
-  buf->data    = grow( NULL, len, &(buf->alloc) );
-  buf->data[0] = '\0';
+  buf->length  = 0;
+  buf->data    = buffer_initial;
+  
+  if( len ) buffer_grow( buf, len );
 }
 
 void buffer_destroy( buffer_t* buf ) {
@@ -45,7 +46,7 @@ void buffer_attach( buffer_t* buf, char* data, size_t len, size_t alloc ) {
 }
 
 void buffer_grow( buffer_t* buf, size_t len ) {
-  void* data;
+  const char* data;
   if( len < buf->alloc )
     return;
   
@@ -66,6 +67,7 @@ void buffer_splice( buffer_t* buf, size_t pos, size_t rem, const char* data, siz
     buffer_grow( buf, buf->length+diff );
     memmove( &(buf->data[pos+diff]), &(buf->data[pos]), buf->length - pos );
   } else if( diff < 0 ) {
+    buffer_editable( buf );
     memmove( &(buf->data[pos]), &(buf->data[pos-diff]), buf->length - pos + diff );
   }
   
