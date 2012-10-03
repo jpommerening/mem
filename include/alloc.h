@@ -33,9 +33,24 @@ extern "C" {
 
 #include <stdlib.h>
 
-typedef struct allocator allocator_t;
+#define ALLOC_EXTERN extern
 
-void * grow( void * mem, size_t len, size_t * alloc );
+typedef struct allocator_s allocator_t;
+  
+struct allocator_s {
+  void* (*alloc)( size_t size );
+  void* (*realloc)( void* ptr, size_t size );
+  void  (*free)( void* ptr );
+  void* info;
+};
+
+void* grow( void* mem, size_t len, size_t* alloc );
+
+ALLOC_EXTERN void* allocator_alloc( allocator_t* alloc, size_t );
+ALLOC_EXTERN void* allocator_realloc( allocator_t* alloc, void*, size_t );
+ALLOC_EXTERN void  allocator_free( allocator_t* alloc, void* );
+
+ALLOC_EXTERN allocator_t* allocator_replace( allocator_t* alloc );
 
 #ifdef __cplusplus
 }

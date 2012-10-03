@@ -20,3 +20,19 @@ void * grow( void * mem, size_t len, size_t * alloc ) {
   
   return mem;
 }
+
+void* allocator_alloc( allocator_t* alloc, size_t len ) {
+  return je_malloc( len );
+}
+
+void* allocator_realloc( allocator_t* alloc, void* ptr, size_t len ) {
+  return je_realloc( ptr, len );
+}
+
+void  allocator_free( allocator_t* alloc, void* ptr ) {
+  je_free( ptr );
+}
+
+allocator_t* allocator_replace( allocator_t* alloc ) {
+  return NULL;
+}

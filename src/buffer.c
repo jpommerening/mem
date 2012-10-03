@@ -24,14 +24,9 @@ void buffer_destroy( buffer_t* buf ) {
 
 char * buffer_detach( buffer_t* buf, size_t* len ) {
   size_t size = buf->length;
-  char*  data;
-  if( buf->alloc )
-    data = realloc( buf->data, size );
-  else
-    data = buf->data;
-  buf->alloc  = 0;
-  buf->length = 0;
-  buf->data   = buffer_initial;
+  char*  data = buf->data;
+  
+  buffer_init( buf, 0 );
   if( len != NULL ) {
     *len = size;
   }
@@ -46,7 +41,7 @@ void buffer_attach( buffer_t* buf, char* data, size_t len, size_t alloc ) {
 }
 
 void buffer_grow( buffer_t* buf, size_t len ) {
-  const char* data;
+  char* data;
   if( len < buf->alloc )
     return;
   
@@ -200,4 +195,12 @@ size_t buffer_rtrim( buffer_t* buf, const char* trim, size_t ntrim ) {
 
 size_t buffer_trim( buffer_t* buf, const char* trim, size_t ntrim ) {
   return buffer_ltrim( buf, trim, ntrim ) + buffer_rtrim( buf, trim, ntrim );
+}
+
+int buffer_cmp( const buffer_t* a, const buffer_t* b ) {
+  assert( a && b && "both buffers shoud be non-NULL");
+  if( a->data == b->data ) return 0;
+  if( a->length == b->length )
+    return memcmp( a->data, b->data, a->length );
+  return (int)a->length - (int)b->length;
 }

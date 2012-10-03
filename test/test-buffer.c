@@ -1,6 +1,8 @@
 #include "buffer.h"
 #include "test.h"
 
+#include <stdlib.h>
+
 TEST( test_buffer_init_destroy ) {
   buffer_t buf;
   buffer_init( &buf, 16 );
@@ -29,6 +31,22 @@ TEST( test_buffer_attach_detach ) {
   ASSERTEQ( len, 4 );
   
   buffer_destroy( &buf );
+}
+
+static char* test__concat( const char* str1, const char* str2 ) {
+  /* this shall be valid and not leaking memory */
+  buffer_t buf = BUFFER_INIT;
+  buffer_appendstr( &buf, str1 );
+  buffer_appendstr( &buf, str2 );
+  return buffer_detach( &buf, NULL );
+}
+TEST( test_buffer_detach_safe ) {
+  char* str1 = test__concat( "Hello", " world!" );
+  char* str2 = test__concat( "Hello", " Bob!" );
+  ASSERTSTREQ( str1, "Hello world!" );
+  ASSERTSTREQ( str2, "Hello Bob!" );
+  free( str1 );
+  free( str2 );
 }
 
 TEST( test_buffer_append ) {
