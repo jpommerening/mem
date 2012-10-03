@@ -96,6 +96,10 @@ BUFFER_EXTERN void buffer_str( buffer_t* buf, const char * str );
 BUFFER_EXTERN void buffer_insertstr( buffer_t* buf, size_t pos, const char * str );
 BUFFER_EXTERN void buffer_appendstr( buffer_t* buf, const char * str );
 
+BUFFER_EXTERN void buffer_c( buffer_t* buf, int c );
+BUFFER_EXTERN void buffer_insertc( buffer_t* buf, size_t pos, int c );
+BUFFER_EXTERN void buffer_appendc( buffer_t* buf, int c );
+  
 BUFFER_EXTERN void buffer_vfmt( buffer_t* buf, const char * fmt, va_list vargs );
 BUFFER_EXTERN void buffer_appendvfmt( buffer_t* buf, const char * fmt, va_list vargs );
 BUFFER_EXTERN void buffer_insertvfmt( buffer_t* buf, size_t pos, const char * fmt, va_list vargs );

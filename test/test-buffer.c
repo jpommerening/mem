@@ -56,9 +56,12 @@ TEST( test_buffer_append ) {
   buffer_append( &buf, " world!", 7 );
   ASSERTSTREQ( buf.data, "Hello world!" );
   
-  buffer_appendstr( &buf, "\nHello buffer!\n" );
-  ASSERTSTREQ( buf.data, "Hello world!\nHello buffer!\n" );
+  buffer_appendstr( &buf, "\nHello buffer!" );
+  ASSERTSTREQ( buf.data, "Hello world!\nHello buffer!" );
 
+  buffer_appendc( &buf, '\n' );
+  ASSERTSTREQ( buf.data, "Hello world!\nHello buffer!\n" );
+  
   buffer_appendbuf( &buf, &bob );
   ASSERTSTREQ( buf.data, "Hello world!\nHello buffer!\nHello Bob!" );
   
@@ -72,13 +75,16 @@ TEST( test_buffer_append ) {
 }
 
 TEST( test_buffer_insert ) {
-  buffer_t buf = BUFFER_INITSTR( "Horld!\n" );
+  buffer_t buf = BUFFER_INITSTR( "Horld!" );
   buffer_t bob = BUFFER_INITSTR( "Hello Bob!");
   
   buffer_insert( &buf, 1, "ello w", 6 );
-  ASSERTSTREQ( buf.data, "Hello world!\n" );
+  ASSERTSTREQ( buf.data, "Hello world!" );
 
   buffer_insertstr( &buf, 0, "Hello buffer!\n");
+  ASSERTSTREQ( buf.data, "Hello buffer!\nHello world!" );
+  
+  buffer_insertc( &buf, buf.length, '\n' );
   ASSERTSTREQ( buf.data, "Hello buffer!\nHello world!\n" );
   
   buffer_insertbuf( &buf, buf.length, &bob );

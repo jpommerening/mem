@@ -48,6 +48,7 @@ void buffer_grow( buffer_t* buf, size_t len ) {
   if( buf->alloc ) {
     buf->data = grow( buf->data, len+1, &(buf->alloc) );
   } else {
+    /* TODO: what if len is less than buf->length? */
     data = grow( NULL, len+1, &(buf->alloc) );
     memcpy( data, buf->data, buf->length+1 );
     buf->data = data;
@@ -100,6 +101,22 @@ void buffer_insertstr( buffer_t* buf, size_t pos, const char* str ) {
 }
 void buffer_appendstr( buffer_t* buf, const char* str ) {
   buffer_append( buf, (const char*)str, strlen(str) );
+}
+
+void buffer_c( buffer_t* buf, int c ) {
+  buffer_grow( buf, 1 );
+  buf->data[0] = c;
+  buf->data[1] = '\0';
+  buffer_setlen( buf, 1 );
+}
+void buffer_insertc( buffer_t* buf, size_t pos, int c ) {
+  buffer_splice( buf, pos, 0, NULL, 1 );
+  buf->data[pos] = c;
+}
+void buffer_appendc( buffer_t* buf, int c ) {
+  buffer_grow( buf, buf->length + 1 );
+  buf->data[buf->length] = c;
+  buffer_setlen( buf, buf->length + 1 );
 }
 
 void buffer_vfmt( buffer_t* buf, const char* fmt, va_list vargs ) {
