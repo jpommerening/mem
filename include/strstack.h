@@ -24,36 +24,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef _MEM_ALLOC_H_
-#define _MEM_ALLOC_H_
+#ifndef _MEM_STRSTACK_H_
+#define _MEM_STRSTACK_H_
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
-
-#include <stdlib.h>
-
-#define ALLOC_EXTERN extern
-
-typedef struct allocator_s allocator_t;
   
-struct allocator_s {
-  void* (*alloc)( size_t size );
-  void* (*realloc)( void* ptr, size_t size );
-  void  (*free)( void* ptr );
-  void* info;
+#include "buffer.h"
+  
+#define STRSTACK_EXTERN extern
+
+typedef struct strstack_s strstack_t;
+
+struct strstack_s {
+  buffer_t buf;
+  const char* top;
 };
 
-void* grow( void* mem, size_t len, size_t* alloc );
+#define STRSTACK_INIT { BUFFER_INITSTR("\0"), "" }
 
-ALLOC_EXTERN void* allocator_alloc( allocator_t* alloc, size_t );
-ALLOC_EXTERN void* allocator_realloc( allocator_t* alloc, void*, size_t );
-ALLOC_EXTERN void  allocator_free( allocator_t* alloc, void* );
+static inline void strstack_init( strstack_t* stack ) {
+  buffer_init( &(stack->buf), 8 );
+  buffer_setlen( &(stack->buf), 1 );
+  stack->top = &(stack->buf.data[0]);
+}
 
-ALLOC_EXTERN allocator_t* allocator_replace( allocator_t* alloc );
+static inline void strstack_destroy( strstack_t* stack ) {
+  buffer_destroy( &(stack->buf) );
+}
+
+void strstack_push( strstack_t* stack, const char* str );
+const char* strstack_pop( strstack_t* stack );
 
 #ifdef __cplusplus
-}
+//}
 #endif
 
 #endif

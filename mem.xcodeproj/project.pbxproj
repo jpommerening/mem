@@ -28,6 +28,8 @@
 		416FD758161A136E00AEA066 /* gen-tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD756161A136400AEA066 /* gen-tests.c */; };
 		416FD762161A29FD00AEA066 /* test-buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 416FD761161A29FD00AEA066 /* test-buffer.c */; };
 		416FD763161A2BC800AEA066 /* mem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 416FD6F3161A0F5D00AEA066 /* mem.a */; };
+		41A62B4016230EDC009D3762 /* strstack.c in Sources */ = {isa = PBXBuildFile; fileRef = 41A62B3F16230EDC009D3762 /* strstack.c */; };
+		41A62B42162315C5009D3762 /* test-strstack.c in Sources */ = {isa = PBXBuildFile; fileRef = 41A62B41162315C5009D3762 /* test-strstack.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,9 @@
 		416FD74A161A130E00AEA066 /* mem-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "mem-test"; sourceTree = BUILT_PRODUCTS_DIR; };
 		416FD756161A136400AEA066 /* gen-tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "gen-tests.c"; sourceTree = "<group>"; };
 		416FD761161A29FD00AEA066 /* test-buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-buffer.c"; sourceTree = "<group>"; };
+		41A62B3D16230B45009D3762 /* strstack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strstack.h; sourceTree = "<group>"; };
+		41A62B3F16230EDC009D3762 /* strstack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strstack.c; sourceTree = "<group>"; };
+		41A62B41162315C5009D3762 /* test-strstack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "test-strstack.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +114,7 @@
 				416FD713161A0FFF00AEA066 /* alloc.h */,
 				416FD714161A0FFF00AEA066 /* buffer.h */,
 				416FD719161A0FFF00AEA066 /* mem.h */,
+				41A62B3D16230B45009D3762 /* strstack.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -129,6 +135,7 @@
 				416FD720161A0FFF00AEA066 /* jemalloc */,
 				416FD743161A11D700AEA066 /* alloc.c */,
 				416FD71D161A0FFF00AEA066 /* buffer.c */,
+				41A62B3F16230EDC009D3762 /* strstack.c */,
 				416FD71F161A0FFF00AEA066 /* internal.h */,
 			);
 			path = src;
@@ -154,6 +161,7 @@
 				416FD756161A136400AEA066 /* gen-tests.c */,
 				416FD72A161A0FFF00AEA066 /* run-tests.c */,
 				416FD761161A29FD00AEA066 /* test-buffer.c */,
+				41A62B41162315C5009D3762 /* test-strstack.c */,
 				416FD72B161A0FFF00AEA066 /* test.c */,
 				416FD72C161A0FFF00AEA066 /* test.h */,
 			);
@@ -255,6 +263,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/test/test-buffer.c",
+				"$(SRCROOT)/test/test-strstack.c",
 			);
 			outputPaths = (
 				"$(SRCROOT)/test/gen-tests.c",
@@ -274,6 +283,7 @@
 				416FD737161A0FFF00AEA066 /* jemalloc.c in Sources */,
 				416FD744161A11D700AEA066 /* alloc.c in Sources */,
 				416FD762161A29FD00AEA066 /* test-buffer.c in Sources */,
+				41A62B4016230EDC009D3762 /* strstack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +294,7 @@
 				416FD754161A135A00AEA066 /* run-tests.c in Sources */,
 				416FD755161A135A00AEA066 /* test.c in Sources */,
 				416FD758161A136E00AEA066 /* gen-tests.c in Sources */,
+				41A62B42162315C5009D3762 /* test-strstack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

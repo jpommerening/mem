@@ -10,9 +10,9 @@
 char buffer_initial[1] = { '\0' };
 
 void buffer_init( buffer_t* buf, size_t len ) {
-  buf->alloc   = 0;
-  buf->length  = 0;
-  buf->data    = buffer_initial;
+  buf->alloc  = 0;
+  buf->length = 0;
+  buf->data   = buffer_initial;
   
   if( len ) buffer_grow( buf, len );
 }
