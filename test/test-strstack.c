@@ -9,7 +9,9 @@ struct test_strstack_s {
 static const struct test_strstack_s _data[] = {
   { 1, { "test" } },
   { 2, { "one", "two" } },
-  { 3, { "", "two", "three" } }
+  { 3, { "", "two", "three" } },
+  { 3, { "one", "", "three" } },
+  { 3, { "one", "two", "" } },
 };
 
 TEST( test_strstack_linear, _data, const struct test_strstack_s* data ) {
