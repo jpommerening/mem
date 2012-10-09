@@ -102,3 +102,37 @@ TEST( test_buffer_remove ) {
   
   buffer_destroy( &buf );
 }
+
+TEST( test_buffer_fmt ) {
+  buffer_t buf = BUFFER_INIT;
+  
+  buffer_fmt( &buf, "%i %s", 100, "test" );
+  ASSERTSTREQ( buf.data, "100 test" );
+  
+  buffer_appendfmt( &buf, " %i", 2 );
+  ASSERTSTREQ( buf.data, "100 test 2" );
+  
+  buffer_insertfmt( &buf, 1, "%i", 10 );
+  ASSERTSTREQ( buf.data, "11000 test 2" );
+  
+  buffer_destroy( &buf );
+}
+
+TEST( test_buffer_trim ) {
+  buffer_t buf = BUFFER_INITSTR(" \t\n\rTest \t");
+  
+  buffer_rtrimw( &buf );
+  ASSERTSTREQ(buf.data, " \t\n\rTest");
+  buffer_ltrimw( &buf );
+  ASSERTSTREQ(buf.data, "Test");
+  
+  buffer_rtrim( &buf, "\0t", 2 );
+  ASSERTSTREQ(buf.data, "Tes");
+  buffer_ltrim( &buf, "\0T", 2 );
+  ASSERTSTREQ(buf.data, "es");
+  
+  buffer_trim( &buf, "es", 2 );
+  ASSERTSTREQ(buf.data, "");
+  
+  buffer_destroy( &buf );
+}

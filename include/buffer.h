@@ -97,13 +97,19 @@ BUFFER_EXTERN void buffer_appendstr( buffer_t* buf, const char * str );
 BUFFER_EXTERN void buffer_c( buffer_t* buf, int c );
 BUFFER_EXTERN void buffer_insertc( buffer_t* buf, size_t pos, int c );
 BUFFER_EXTERN void buffer_appendc( buffer_t* buf, int c );
-  
-BUFFER_EXTERN void buffer_vfmt( buffer_t* buf, const char * fmt, va_list vargs );
-BUFFER_EXTERN void buffer_appendvfmt( buffer_t* buf, const char * fmt, va_list vargs );
-BUFFER_EXTERN void buffer_insertvfmt( buffer_t* buf, size_t pos, const char * fmt, va_list vargs );
 
+__attribute__((format (printf,2,0)))
+BUFFER_EXTERN void buffer_vfmt( buffer_t* buf, const char * fmt, va_list vargs );
+__attribute__((format (printf,3,0)))
+BUFFER_EXTERN void buffer_insertvfmt( buffer_t* buf, size_t pos, const char * fmt, va_list vargs );
+__attribute__((format (printf,2,0)))
+BUFFER_EXTERN void buffer_appendvfmt( buffer_t* buf, const char * fmt, va_list vargs );
+
+__attribute__((format (printf,2,3)))
 BUFFER_EXTERN void buffer_fmt( buffer_t* buf, const char * fmt, ... );
+__attribute__((format (printf,3,4)))
 BUFFER_EXTERN void buffer_insertfmt( buffer_t* buf, size_t pos, const char * fmt, ... );
+__attribute__((format (printf,2,3)))
 BUFFER_EXTERN void buffer_appendfmt( buffer_t* buf, const char * fmt, ... );
 
 BUFFER_EXTERN size_t buffer_read( buffer_t* buf,
