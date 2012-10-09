@@ -44,18 +44,12 @@ struct strstack_s {
 
 #define STRSTACK_INIT { BUFFER_INITSTR("\0"), "" }
 
-static inline void strstack_init( strstack_t* stack ) {
-  buffer_init( &(stack->buf), 8 );
-  buffer_setlen( &(stack->buf), 1 );
-  stack->top = &(stack->buf.data[0]);
-}
+STRSTACK_EXTERN void strstack_init( strstack_t* stack );
 
-static inline void strstack_destroy( strstack_t* stack ) {
-  buffer_destroy( &(stack->buf) );
-}
+STRSTACK_EXTERN void strstack_destroy( strstack_t* stack );
 
-void strstack_push( strstack_t* stack, const char* str );
-const char* strstack_pop( strstack_t* stack );
+STRSTACK_EXTERN void strstack_push( strstack_t* stack, const char* str );
+STRSTACK_EXTERN const char* strstack_pop( strstack_t* stack );
 
 #ifdef __cplusplus
 }

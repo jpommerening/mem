@@ -4,6 +4,17 @@
 
 #define assert_inside_buffer(b,p) assert( (p) >= (b).data && (p) <= (b).data + (b).length )
 
+
+void strstack_init( strstack_t* stack ) {
+  buffer_init( &(stack->buf), 8 );
+  buffer_setlen( &(stack->buf), 1 );
+  stack->top = &(stack->buf.data[0]);
+}
+
+void strstack_destroy( strstack_t* stack ) {
+  buffer_destroy( &(stack->buf) );
+}
+
 void strstack_push( strstack_t* stack, const char* str ) {
   size_t offset = stack->buf.length;
 
