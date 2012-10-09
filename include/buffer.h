@@ -35,17 +35,15 @@ extern "C" {
 #include <stdarg.h>
 #include <assert.h>
 
+#include "array.h"
+
 #define BUFFER_EXTERN extern
 
 BUFFER_EXTERN char buffer_initial[];
 
 typedef struct buffer_s buffer_t;
 
-struct buffer_s {
-  size_t alloc;
-  size_t length;
-  char * data;
-};
+struct buffer_s array_s(char);
 
 #define BUFFER_INIT { 0, 0, buffer_initial }
 #define BUFFER_INITSTR(s) { 0, sizeof(s "")-1, s "" } 

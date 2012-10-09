@@ -18,8 +18,7 @@ void buffer_init( buffer_t* buf, size_t len ) {
 }
 
 void buffer_destroy( buffer_t* buf ) {
-  if( buf->alloc )
-    free( buf->data );
+  array_destroy(buf);
 }
 
 char * buffer_detach( buffer_t* buf, size_t* len ) {
@@ -41,18 +40,7 @@ void buffer_attach( buffer_t* buf, char* data, size_t len, size_t alloc ) {
 }
 
 void buffer_grow( buffer_t* buf, size_t len ) {
-  char* data;
-  if( len < buf->alloc )
-    return;
-  
-  if( buf->alloc ) {
-    buf->data = grow( buf->data, len+1, &(buf->alloc) );
-  } else {
-    /* TODO: what if len is less than buf->length? */
-    data = grow( NULL, len+1, &(buf->alloc) );
-    memcpy( data, buf->data, buf->length+1 );
-    buf->data = data;
-  }
+  array_grow(buf, len);
 }
 
 void buffer_splice( buffer_t* buf, size_t pos, size_t rem, const char* data, size_t len ) {

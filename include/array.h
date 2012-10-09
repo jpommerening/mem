@@ -24,41 +24,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef _MEM_STRSTACK_H_
-#define _MEM_STRSTACK_H_
+#ifndef _MEM_ARRAY_H_
+#define _MEM_ARRAY_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-  
-#include "buffer.h"
-  
-#define STRSTACK_EXTERN extern
+#include "alloc.h"
 
-typedef struct strstack_s strstack_t;
+#define array_s(T) \
+  { \
+    size_t alloc; \
+    size_t length; \
+    T* data; \
+  }
 
-struct strstack_s {
-  buffer_t buf;
-  const char* top;
-};
+#define ARRAY_INIT { 0, 0, NULL }
+#define ARRAY_INITARR(x) { 0, sizeof(x) / sizeof((x)[0]), x }
 
-#define STRSTACK_INIT { BUFFER_INITSTR("\0"), "" }
+#define array_init(arr, len) \
+  do { \
+    (arr)->alloc  = 0; \
+    (arr)->length = 0; \
+    (arr)->data   = NULL; \
+    array_grow( arr, len ); \
+  } while( 0 )
 
-static inline void strstack_init( strstack_t* stack ) {
-  buffer_init( &(stack->buf), 8 );
-  buffer_setlen( &(stack->buf), 1 );
-  stack->top = &(stack->buf.data[0]);
-}
+#define array_destroy(arr) \
+  do { \
+    if( (arr)->alloc && (arr)->data ) \
+      free( (arr)->data ); \
+  } while( 0 )
 
-static inline void strstack_destroy( strstack_t* stack ) {
-  buffer_destroy( &(stack->buf) );
-}
+#define array_grow(arr, len) \
+  do { \
+    size_t arrsize ## __LINE__ = ( ( (len) > ((arr)->length) ) ? len + 1 : (arr)->length + 1 ) * sizeof((arr)->data[0]); \
+    void*  arrdata ## __LINE__ = (arr)->data; \
+    if( (arr)->alloc == 0 ) { \
+      (arr)->data = grow( NULL, arrsize ## __LINE__, &((arr)->alloc) ); \
+      if( arrdata ## __LINE__ ) \
+        memcpy( (arr)->data, arrdata ## __LINE__, sizeof((arr)->data[0]) * ((arr)->length + 1) ); \
+    } else if( (arr)->alloc < arrsize ## __LINE__ ) { \
+      (arr)->data = grow( (arr)->data, arrsize ## __LINE__, &((arr)->alloc) ); \
+    } \
+  } while( 0 )
 
-void strstack_push( strstack_t* stack, const char* str );
-const char* strstack_pop( strstack_t* stack );
-
-#ifdef __cplusplus
-}
-#endif
+#define array_avail(arr) \
+  ( (arr)->alloc ? ( (arr)->alloc / sizeof((arr)->data[0]) ) - (arr)->length : 0 )
 
 #endif
