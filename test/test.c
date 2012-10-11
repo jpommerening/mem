@@ -47,7 +47,7 @@ static void test__start( test_context_t* context ) {
   if( test ) {
     fprintf( context->log, "TEST %s", test->name );
     
-    if( data ) {
+    if( data && test->datastep ) {
       fprintf( context->log, " [%d/%d]",
         (int) ((data - test->data) / test->datastep) + 1,
         test->datalength );
