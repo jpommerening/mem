@@ -66,3 +66,25 @@ TEST( test_strstack_random ) {
   
   strstack_destroy( &stack );
 }
+
+TEST( test_strstack_fmt ) {
+  strstack_t  stack = STRSTACK_INIT;
+  const char* str;
+  size_t len;
+  
+  strstack_pushfmt( &stack, "%s %i, %i", "Test", 1, 2 );
+  ASSERTSTREQ( stack.top, "Test 1, 2" );
+  
+  strstack_push( &stack, "Test 3, 4", 6 );
+  ASSERTSTREQ( stack.top, "Test 3" );
+  
+  str = strstack_pop( &stack, &len );
+  ASSERTSTREQ( str, "Test 3" );
+  ASSERTEQ( len, 6 );
+  
+  str = strstack_pop( &stack, &len );
+  ASSERTSTREQ( str, "Test 1, 2" );
+  ASSERTEQ( len, 9 );
+  
+  strstack_destroy( &stack );
+}
