@@ -29,7 +29,7 @@ void strstack_push( strstack_t* stack, const char* data, size_t len ) {
 
 const char* strstack_pop( strstack_t* stack, size_t* len ) {
   size_t offset   = stack->top - stack->buf.data;
-  size_t strlen   = stack->buf.length - offset;
+  size_t strlen   = stack->buf.length - offset - 1;
   const char* top = stack->top;
   
   assert_inside_buffer( stack->buf, stack->top );
