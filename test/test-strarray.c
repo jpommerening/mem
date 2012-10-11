@@ -20,12 +20,12 @@ TEST( test_strarray_push_pop ) {
   
   strarray_init( &strarr );
   
-  strarray_push( &strarr, "Test" );
+  strarray_pushstr( &strarr, "Test" );
   ASSERTEQ( strarr.stack.top, strarr.arr.data[0] );
   ASSERTSTREQ( strarr.arr.data[0], "Test" );
   ASSERTEQ( strarr.arr.length, 1 );
   
-  str = strarray_pop( &strarr );
+  str = strarray_popstr( &strarr );
   ASSERTSTREQ( str, "Test" );
   ASSERTEQ( strarr.arr.length, 0 );
   
@@ -50,7 +50,7 @@ TEST( test_strarray_realloc ) {
 
   /* Trigger reallocation of the internal buffer .. */
   for( i=0; i<max; i++ ) {
-    strarray_push( &strarr, strings[i] );
+    strarray_pushstr( &strarr, strings[i] );
   }
   
   ASSERTEQ( strarr.arr.length, 32 );
@@ -61,8 +61,27 @@ TEST( test_strarray_realloc ) {
   }
   
   for( i=max-1; i>=0; i-- ) {
-    str = strarray_pop( &strarr );
+    str = strarray_popstr( &strarr );
     ASSERTSTREQ( str, strings[i] );
     ASSERTEQ( strarr.arr.length, i );
   }
+  
+  strarray_destroy( &strarr );
+}
+
+TEST( test_strarray_fmt ) {
+  strarray_t strarr = STRARRAY_INIT;
+  size_t len;
+  const char* str;
+  
+  strarray_pushfmt( &strarr, "%s %i", "Test", 0 );
+  ASSERTEQ( strarr.arr.length, 1 );
+  ASSERTSTREQ( strarr.arr.data[0], "Test 0" );
+  
+  str = strarray_pop( &strarr, &len );
+  ASSERTSTREQ( str, "Test 0" );
+  ASSERTEQ( len, 6 );
+  ASSERTEQ( strarr.arr.length, 0 );
+  
+  strarray_destroy( &strarr );
 }

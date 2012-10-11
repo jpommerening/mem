@@ -27,15 +27,37 @@ static void strarray__rebuild( strarray_t* strarr ) {
   }
 }
 
-void strarray_push( strarray_t* strarr, const char* str ) {
-  strstack_pushstr( &(strarr->stack), str );
+void strarray_push( strarray_t* strarr, const char* str, size_t len ) {
+  strstack_push( &(strarr->stack), str, len );
   strarray__rebuild( strarr ); /* realloc may have moved stack */
   
   array_push( &(strarr->arr), strarr->stack.top );
 }
 
-const char* strarray_pop( strarray_t* strarr ) {
-  const char* str = strstack_popstr( &(strarr->stack) );
+const char* strarray_pop( strarray_t* strarr, size_t* len ) {
   array_pop( &(strarr->arr) );
-  return str;
+  
+  return strstack_pop( &(strarr->stack), len );
+}
+
+void strarray_pushstr( strarray_t* strarr, const char* str ) {
+  strarray_push( strarr, str, strlen(str) );
+}
+
+const char* strarray_popstr( strarray_t* strarr ) {
+  return strarray_pop( strarr, NULL );
+}
+
+void strarray_pushvfmt( strarray_t* strarr, const char* fmt, va_list vargs ) {
+  buffer_t tmp = BUFFER_INIT;
+  buffer_vfmt( &tmp, fmt, vargs );
+  strarray_push( strarr, tmp.data, tmp.length );
+  buffer_destroy( &tmp );
+}
+
+void strarray_pushfmt( strarray_t* strarr, const char* fmt, ... ) {
+  va_list vargs;
+  va_start(vargs, fmt);
+  strarray_pushvfmt( strarr, fmt, vargs );
+  va_end(vargs);
 }

@@ -54,7 +54,7 @@ STRSTACK_EXTERN void strstack_destroy( strstack_t* stack );
 STRSTACK_EXTERN void strstack_push( strstack_t* stack, const char* data, size_t len );
 STRSTACK_EXTERN const char* strstack_pop( strstack_t* stack, size_t* len );
   
-STRSTACK_EXTERN void strstack_pushstr( strstack_t* stack, const char* data );
+STRSTACK_EXTERN void strstack_pushstr( strstack_t* stack, const char* str );
 STRSTACK_EXTERN const char* strstack_popstr( strstack_t* stack );
   
 __attribute__((format (printf,2,0)))

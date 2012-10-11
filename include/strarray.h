@@ -49,8 +49,16 @@ STRARRAY_EXTERN void strarray_init( strarray_t* strarr );
   
 STRARRAY_EXTERN void strarray_destroy( strarray_t* strarr );
   
-STRARRAY_EXTERN void strarray_push( strarray_t* strarr, const char* str );
-STRARRAY_EXTERN const char* strarray_pop( strarray_t* strarr );
+STRARRAY_EXTERN void strarray_push( strarray_t* strarr, const char* data, size_t len );
+STRARRAY_EXTERN const char* strarray_pop( strarray_t* strarr, size_t* len );
+  
+STRARRAY_EXTERN void strarray_pushstr( strarray_t* strarr, const char* str );
+STRARRAY_EXTERN const char* strarray_popstr( strarray_t* strarr );
+  
+__attribute__((format (printf,2,0)))
+STRARRAY_EXTERN void strarray_pushvfmt( strarray_t* strarr, const char* fmt, va_list vargs );
+__attribute__((format (printf,2,3)))
+STRARRAY_EXTERN void strarray_pushfmt( strarray_t* strarr, const char* fmt, ... );
   
 #ifdef __cplusplus
 }
