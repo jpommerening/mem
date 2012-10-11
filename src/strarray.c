@@ -28,14 +28,14 @@ static void strarray__rebuild( strarray_t* strarr ) {
 }
 
 void strarray_push( strarray_t* strarr, const char* str ) {
-  strstack_push( &(strarr->stack), str );
+  strstack_pushstr( &(strarr->stack), str );
   strarray__rebuild( strarr ); /* realloc may have moved stack */
   
   array_push( &(strarr->arr), strarr->stack.top );
 }
 
 const char* strarray_pop( strarray_t* strarr ) {
-  const char* str = strstack_pop( &(strarr->stack) );
+  const char* str = strstack_popstr( &(strarr->stack) );
   array_pop( &(strarr->arr) );
   return str;
 }

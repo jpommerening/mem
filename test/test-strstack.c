@@ -23,14 +23,14 @@ TEST( test_strstack_linear, _data, const struct test_strstack_s* data ) {
     ASSERTNE( stack.top, NULL, "before push %i: %s, top: %s", i, data->seq[i], stack.top );
     ASSERTSTREQ( stack.top, str, "str: %s, top: %s", str, stack.top );
 
-    strstack_push( &stack, data->seq[i] );
+    strstack_pushstr( &stack, data->seq[i] );
     ASSERTSTREQ( stack.top, data->seq[i], "after push %i: %s", i, data->seq[i] );
     str = data->seq[i];
   }
   
   for( i -= 1 ; i >= 0; i-- ) {
     ASSERTSTREQ( stack.top, data->seq[i], "before pop n-%i: %s, top: %s", i, data->seq[i], stack.top );
-    str = strstack_pop( &stack );
+    str = strstack_popstr( &stack );
     ASSERTSTREQ( str, data->seq[i], "after pop n-%i: %s, str: %s", i, data->seq[i], str );
   }
   
@@ -45,22 +45,22 @@ TEST( test_strstack_random ) {
   const char* str;
   
   /* already tested by test_strstack_linear */
-  strstack_push( &stack, "one" );
-  strstack_push( &stack, "two" );
-  strstack_push( &stack, "three" );
-  str = strstack_pop( &stack );
+  strstack_pushstr( &stack, "one" );
+  strstack_pushstr( &stack, "two" );
+  strstack_pushstr( &stack, "three" );
+  str = strstack_popstr( &stack );
   
   ASSERTSTREQ( str, "three" );
   ASSERTSTREQ( stack.top, "two" );
   
-  strstack_push( &stack, "test" );
+  strstack_pushstr( &stack, "test" );
   ASSERTSTREQ( stack.top, "test" );
   
-  str = strstack_pop( &stack );
+  str = strstack_popstr( &stack );
   ASSERTSTREQ( str, "test" );
   ASSERTSTREQ( stack.top, "two" );
   
-  str = strstack_pop( &stack );
+  str = strstack_popstr( &stack );
   ASSERTSTREQ( str, "two" );
   ASSERTSTREQ( stack.top, "one" );
   

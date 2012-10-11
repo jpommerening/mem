@@ -82,48 +82,48 @@ static inline void buffer_setlen( buffer_t* buf, size_t len ) {
 }
 #define buffer_reset(sb) buffer_setlen(sb, 0)
 
-BUFFER_EXTERN void buffer_splice( buffer_t* buf, size_t pos, size_t rem, const char * data, size_t len );
+BUFFER_EXTERN void buffer_splice( buffer_t* buf, size_t pos, size_t rem, const char* data, size_t len );
 BUFFER_EXTERN void buffer_remove( buffer_t* buf, size_t pos, size_t len );
-BUFFER_EXTERN void buffer_insert( buffer_t* buf, size_t pos, const char * data, size_t len );
-BUFFER_EXTERN void buffer_append( buffer_t* buf, const char * data, size_t len );
+BUFFER_EXTERN void buffer_insert( buffer_t* buf, size_t pos, const char* data, size_t len );
+BUFFER_EXTERN void buffer_append( buffer_t* buf, const char* data, size_t len );
 
 BUFFER_EXTERN void buffer_insertbuf( buffer_t* buf, size_t pos, const buffer_t* b );
 BUFFER_EXTERN void buffer_appendbuf( buffer_t* buf, const buffer_t* b );
 
-BUFFER_EXTERN void buffer_str( buffer_t* buf, const char * str );
-BUFFER_EXTERN void buffer_insertstr( buffer_t* buf, size_t pos, const char * str );
-BUFFER_EXTERN void buffer_appendstr( buffer_t* buf, const char * str );
+BUFFER_EXTERN void buffer_str( buffer_t* buf, const char* str );
+BUFFER_EXTERN void buffer_insertstr( buffer_t* buf, size_t pos, const char* str );
+BUFFER_EXTERN void buffer_appendstr( buffer_t* buf, const char* str );
 
 BUFFER_EXTERN void buffer_c( buffer_t* buf, int c );
 BUFFER_EXTERN void buffer_insertc( buffer_t* buf, size_t pos, int c );
 BUFFER_EXTERN void buffer_appendc( buffer_t* buf, int c );
 
 __attribute__((format (printf,2,0)))
-BUFFER_EXTERN void buffer_vfmt( buffer_t* buf, const char * fmt, va_list vargs );
+BUFFER_EXTERN void buffer_vfmt( buffer_t* buf, const char* fmt, va_list vargs );
 __attribute__((format (printf,3,0)))
-BUFFER_EXTERN void buffer_insertvfmt( buffer_t* buf, size_t pos, const char * fmt, va_list vargs );
+BUFFER_EXTERN void buffer_insertvfmt( buffer_t* buf, size_t pos, const char* fmt, va_list vargs );
 __attribute__((format (printf,2,0)))
-BUFFER_EXTERN void buffer_appendvfmt( buffer_t* buf, const char * fmt, va_list vargs );
+BUFFER_EXTERN void buffer_appendvfmt( buffer_t* buf, const char* fmt, va_list vargs );
 
 __attribute__((format (printf,2,3)))
-BUFFER_EXTERN void buffer_fmt( buffer_t* buf, const char * fmt, ... );
+BUFFER_EXTERN void buffer_fmt( buffer_t* buf, const char* fmt, ... );
 __attribute__((format (printf,3,4)))
-BUFFER_EXTERN void buffer_insertfmt( buffer_t* buf, size_t pos, const char * fmt, ... );
+BUFFER_EXTERN void buffer_insertfmt( buffer_t* buf, size_t pos, const char* fmt, ... );
 __attribute__((format (printf,2,3)))
-BUFFER_EXTERN void buffer_appendfmt( buffer_t* buf, const char * fmt, ... );
+BUFFER_EXTERN void buffer_appendfmt( buffer_t* buf, const char* fmt, ... );
 
 BUFFER_EXTERN size_t buffer_read( buffer_t* buf,
-                                  const char * data,  size_t len,
-                                  const char * delim, size_t ndelim );
+                                  const char* data,  size_t len,
+                                  const char* delim, size_t ndelim );
 
 BUFFER_EXTERN size_t buffer_read_escaped( buffer_t* buf, char c,
-                                          const char * data,  size_t len,
-                                          const char * delim, size_t ndelim,
-                                          const char * esc,   size_t nesc );
+                                          const char* data,  size_t len,
+                                          const char* delim, size_t ndelim,
+                                          const char* esc,   size_t nesc );
 
-BUFFER_EXTERN size_t buffer_rtrim( buffer_t* buf, const char * trim, size_t ntrim );
-BUFFER_EXTERN size_t buffer_ltrim( buffer_t* buf, const char * trim, size_t ntrim );
-BUFFER_EXTERN size_t buffer_trim( buffer_t* buf, const char * trim, size_t ntrim );
+BUFFER_EXTERN size_t buffer_rtrim( buffer_t* buf, const char* trim, size_t ntrim );
+BUFFER_EXTERN size_t buffer_ltrim( buffer_t* buf, const char* trim, size_t ntrim );
+BUFFER_EXTERN size_t buffer_trim( buffer_t* buf, const char* trim, size_t ntrim );
 
 static inline size_t buffer_rtrimw( buffer_t* buf ) {
   return buffer_rtrim( buf, BUFFER_WHITESPACE, BUFFER_NWHITESPACE );

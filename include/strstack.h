@@ -30,7 +30,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  
+
+#include <stddef.h>
+#include <stdarg.h>
+
 #include "buffer.h"
   
 #define STRSTACK_EXTERN extern
@@ -48,8 +51,16 @@ STRSTACK_EXTERN void strstack_init( strstack_t* stack );
 
 STRSTACK_EXTERN void strstack_destroy( strstack_t* stack );
 
-STRSTACK_EXTERN void strstack_push( strstack_t* stack, const char* str );
-STRSTACK_EXTERN const char* strstack_pop( strstack_t* stack );
+STRSTACK_EXTERN void strstack_push( strstack_t* stack, const char* data, size_t len );
+STRSTACK_EXTERN const char* strstack_pop( strstack_t* stack, size_t* len );
+  
+STRSTACK_EXTERN void strstack_pushstr( strstack_t* stack, const char* data );
+STRSTACK_EXTERN const char* strstack_popstr( strstack_t* stack );
+  
+__attribute__((format (printf,2,0)))
+STRSTACK_EXTERN void strstack_pushvfmt( strstack_t* stack, const char* fmt, va_list vargs );
+__attribute__((format (printf,2,3)))
+STRSTACK_EXTERN void strstack_pushfmt( strstack_t* stack, const char* fmt, ... );
 
 #ifdef __cplusplus
 }
