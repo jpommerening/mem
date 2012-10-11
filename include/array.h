@@ -27,6 +27,8 @@
 #ifndef _MEM_ARRAY_H_
 #define _MEM_ARRAY_H_
 
+#include <string.h>
+
 #include "alloc.h"
 
 #define array_s(T) \
@@ -68,5 +70,17 @@
 
 #define array_avail(arr) \
   ( (arr)->alloc ? ( (arr)->alloc / sizeof((arr)->data[0]) ) - (arr)->length : 0 )
+
+#define array_push(arr, x) \
+  do { \
+    array_grow(arr, (arr)->length + 1); \
+    (arr)->data[(arr)->length] = x; \
+    (arr)->length += 1; \
+  } while( 0 )
+
+
+#define array_pop(arr) \
+  ( ( (arr)->length > 0 && (arr)->data != NULL ) ? (arr)->data[--((arr)->length)] : 0 )
+
 
 #endif
